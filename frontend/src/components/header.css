@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+/* =========================
+   ROOT COLORS
+========================= */
+:root{
+
+  /* BACKGROUNDS */
+  --rm-bg-primary:#0A1128;
+  --rm-bg-secondary:#0D1F3C;
+  --rm-bg-card:#111D3A;
+
+  /* ACCENTS */
+  --rm-accent-portal:#39FF8A;
+  --rm-accent-plasma:#00C2FF;
+  --rm-accent-purple:#7B4FE8;
+
+  /* TEXT */
+  --rm-text-primary:#C0F0D8;
+  --rm-text-secondary:#8AB4CC;
+  --rm-text-muted:#4A6A80;
+
+  /* BORDERS */
+  --rm-border:#1B3A5C;
+  --rm-border-accent:rgba(57,255,138,0.25);
+
+  /* STATUS */
+  --rm-alive:#39FF8A;
+  --rm-dead:#E84E4E;
+  --rm-unknown:#7B4FE8;
+
+  /* SEMANTIC */
+  --rm-warning:#F5C842;
+  --rm-danger:#E84E4E;
+  --rm-success:#39FF8A;
+  --rm-info:#00C2FF;
+}
+
+/* =========================
+   GLOBAL
+========================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:var(--rm-bg-primary);
+  min-height:100vh;
+  color:var(--rm-text-primary);
+}
+
+/* =========================
+   HEADER
+========================= */
+header{
+  width:100%;
+  background:rgba(10,17,40,0.95);
+  border-bottom:1px solid var(--rm-border-accent);
+  padding:20px 40px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  backdrop-filter:blur(12px);
+  box-shadow:0 0 30px rgba(0,194,255,0.12);
+}
+
+/* =========================
+   LOGO
+========================= */
+header img{
+  width:160px;
+  cursor:pointer;
+  transition:0.4s ease;
+  filter:drop-shadow(0 0 10px rgba(57,255,138,0.4));
+}
+
+header img:hover{
+  transform:scale(1.05) rotate(-2deg);
+}
+
+/* =========================
+   NAV BUTTONS
+========================= */
+header button{
+  cursor:pointer;
+  transition:0.3s ease;
+  font-weight:600;
+}
+
+/* Characters */
+.characters-btn{
+  background:var(--rm-bg-card);
+  color:var(--rm-text-primary);
+  border:1px solid var(--rm-border);
+  padding:12px 24px;
+  border-radius:999px;
+}
+
+.characters-btn:hover{
+  background:var(--rm-accent-portal);
+  color:black;
+  box-shadow:0 0 20px rgba(57,255,138,0.5);
+  transform:translateY(-2px);
+}
+
+/* Location */
+.location-btn{
+  background:var(--rm-bg-card);
+  color:var(--rm-text-primary);
+  border:1px solid var(--rm-border);
+  padding:12px 24px;
+  border-radius:999px;
+}
+
+.location-btn:hover{
+  background:var(--rm-accent-plasma);
+  color:black;
+  box-shadow:0 0 20px rgba(0,194,255,0.5);
+  transform:translateY(-2px);
+}
+
+/* Episode */
+.episode-btn{
+  background:var(--rm-bg-card);
+  color:var(--rm-text-primary);
+  border:1px solid var(--rm-border);
+  padding:12px 24px;
+  border-radius:999px;
+}
+
+.episode-btn:hover{
+  background:var(--rm-accent-purple);
+  color:white;
+  box-shadow:0 0 20px rgba(123,79,232,0.5);
+  transform:translateY(-2px);
+}
+
+/* =========================
+   SEARCH BAR
+========================= */
+.search-container{
+  position:relative;
+  width:100%;
+  max-width:600px;
+}
+
+.search-input{
+  width:100%;
+  background:var(--rm-bg-card);
+  border:1px solid var(--rm-border);
+  padding:14px 24px;
+  border-radius:999px;
+  color:var(--rm-text-primary);
+  outline:none;
+  transition:0.3s ease;
+}
+
+.search-input::placeholder{
+  color:var(--rm-text-muted);
+}
+
+.search-input:focus{
+  border-color:var(--rm-accent-portal);
+  box-shadow:0 0 15px rgba(57,255,138,0.25);
+  transform:scale(1.01);
+}
+
+/* SEARCH BUTTON */
+.search-btn{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  background:var(--rm-accent-portal);
+  color:black;
+  border:none;
+  padding:10px 20px;
+  border-radius:999px;
+  font-weight:bold;
+}
+
+.search-btn:hover{
+  background:var(--rm-accent-plasma);
+  box-shadow:0 0 20px rgba(0,194,255,0.5);
+}
+
+/* =========================
+   LOGOUT BUTTON
+========================= */
+.logout-btn{
+  background:var(--rm-danger);
+  color:white;
+  border:none;
+  padding:12px 26px;
+  border-radius:999px;
+  font-weight:bold;
+}
+
+.logout-btn:hover{
+  background:#ff6b6b;
+  box-shadow:0 0 20px rgba(232,78,78,0.5);
+  transform:translateY(-2px);
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:var(--rm-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb{
+  background:var(--rm-accent-plasma);
+  border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:var(--rm-accent-portal);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:900px){
+
+  header{
+    padding:20px;
+  }
+
+  header .flex{
+    flex-direction:column;
+    gap:20px;
+  }
+
+  .search-container{
+    max-width:100%;
+  }
+
+  header img{
+    width:130px;
+  }
+
+}
+
