@@ -1,11 +1,11 @@
-import { getLocations } from '../services/rickmorty.js'
+import { getEpisodes } from '../services/rickmorty.js'
 import { createPagination, renderPaginationButtons } from '../components/pagination.js'
 import { createList, renderList } from '../components/list.js'
 import { createRow } from '../components/row.js'
 
 const admin = true
 
-export async function renderLocationsPage(container, page = 1) {
+export async function renderEpisodesPage(container, page = 1) {
   container.innerHTML = `
     ${createList().outerHTML}
     ${createPagination().outerHTML}
@@ -19,9 +19,10 @@ export async function renderLocationsPage(container, page = 1) {
   let isLoading = false
 
   function renderRow(item) {
-    return createRow(item, { isAdmin: admin, onNavigate: (item) => window.__router.navigate(`/location/${item.id}`) }, (loc) =>
-      `<div class="flex-1 min-w-0">
-         <p class="font-bold text-(--rm-text-primary) truncate group-hover:text-(--rm-accent-plasma) transition-colors">${loc.name}</p>
+    return createRow(item, { isAdmin: admin, onNavigate: (item) => window.__router.navigate(`/episode/${item.id}`) }, (ep) =>
+      `<span class="text-xs font-mono font-bold text-(--rm-accent-purple) shrink-0 w-16">${ep.episode}</span>
+       <div class="flex-1 min-w-0">
+         <p class="font-bold text-(--rm-text-primary) truncate group-hover:text-(--rm-accent-plasma) transition-colors">${ep.name}</p>
        </div>`
     )
   }
@@ -42,11 +43,11 @@ export async function renderLocationsPage(container, page = 1) {
     updatePagination()
 
     try {
-      const data = await getLocations(page)
+      const data = await getEpisodes(page)
       currentPage = page
       totalPages = data.info.pages
       renderList(list, { items: data.results, renderItem: renderRow })
-      history.replaceState({}, '', `/locations/page/${page}`)
+      history.replaceState({}, '', `/episodes/page/${page}`)
     } catch (err) {
       renderList(list, { error: err.message })
       console.error(err)

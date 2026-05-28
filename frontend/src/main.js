@@ -2,6 +2,7 @@ import './style.css'
 import Router from './router.js'
 import { renderCharactersPage } from './pages/charactersPage.js'
 import { renderLocationsPage } from './pages/locationsPage.js'
+import { renderEpisodesPage } from './pages/episodesPage.js'
 import { renderComingSoon } from './components/coming-soon.js'
 
 const app = document.querySelector('#app')
@@ -13,6 +14,9 @@ router.addRoute('/characters/page/:page', renderCharactersPage)
 
 router.addRoute('/locations', (container) => renderLocationsPage(container, 1))
 router.addRoute('/locations/page/:page', renderLocationsPage)
+
+router.addRoute('/episodes', (container) => renderEpisodesPage(container, 1))
+router.addRoute('/episodes/page/:page', renderEpisodesPage)
 
 router.addRoute('/character/:id', (container, id) => {
   renderComingSoon(container, {
@@ -29,6 +33,15 @@ router.addRoute('/location/:id', (container, id) => {
     id,
     backPath: '/locations',
     backLabel: 'locations',
+  })
+})
+
+router.addRoute('/episode/:id', (container, id) => {
+  renderComingSoon(container, {
+    label: 'Episode',
+    id,
+    backPath: '/episodes',
+    backLabel: 'episodes',
   })
 })
 

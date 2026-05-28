@@ -41,9 +41,7 @@ export function createItemCard(item, { isAdmin, onNavigate } = {}) {
       return
     }
 
-    if ((target.tagName === 'IMG' || target.tagName === 'H2') && onNavigate) {
-      onNavigate(item)
-    }
+    if (onNavigate) onNavigate(item)
   })
 
   return card

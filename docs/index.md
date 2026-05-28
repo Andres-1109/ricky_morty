@@ -1,6 +1,6 @@
-# Rick & Morty Characters
+# Rick & Morty App
 
-SPA que lista personajes de la API pública de Rick & Morty con paginación, roles (admin/visitante) y navegación History API.
+SPA que lista personajes, ubicaciones y episodios de la API pública de Rick & Morty con paginación, roles (admin/visitante) y navegación History API.
 
 | Stack | Versión |
 |-------|---------|
