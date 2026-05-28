@@ -1,18 +1,18 @@
-export function createCharacterCard(character, { isAdmin } = {}) {
+export function createItemCard(item, { isAdmin, onNavigate } = {}) {
   const card = document.createElement('article')
   card.className =
     'group rounded-xl overflow-hidden border cursor-pointer transition-transform duration-200 hover:scale-[1.02] bg-[var(--rm-bg-card)] border-[var(--rm-border)]'
 
   card.innerHTML = `
     <img
-      src="${character.image}"
-      alt="${character.name}"
+      src="${item.image}"
+      alt="${item.name}"
       class="w-full h-56 object-cover"
       loading="lazy"
     />
     <div class="p-3">
       <h2 class="text-base font-bold text-center text-(--rm-text-primary) group-hover:text-(--rm-accent-plasma) transition-colors duration-200">
-        ${character.name}
+        ${item.name}
       </h2>
       ${isAdmin ? `
         <div class="flex gap-2 mt-3">
@@ -31,21 +31,18 @@ export function createCharacterCard(character, { isAdmin } = {}) {
   card.addEventListener('click', (e) => {
     const target = e.target
 
-    // Click en botón Editar — lógica pendiente
     if (target.classList.contains('btn-edit')) {
-      console.log('Editar', character.id, character.name)
+      console.log('Editar', item.id, item.name)
       return
     }
 
-    // Click en botón Eliminar — lógica pendiente
     if (target.classList.contains('btn-delete')) {
-      console.log('Eliminar', character.id, character.name)
+      console.log('Eliminar', item.id, item.name)
       return
     }
 
-    // Click en la imagen → navega a detalle
-    if (target.tagName === 'IMG' || target.tagName === 'H2') {
-      window.__router.navigate(`/character/${character.id}`)
+    if ((target.tagName === 'IMG' || target.tagName === 'H2') && onNavigate) {
+      onNavigate(item)
     }
   })
 

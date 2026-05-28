@@ -1,8 +1,8 @@
-export function createGrid() {
+export function createGrid({ minWidth = 230 } = {}) {
   const grid = document.createElement('div')
   grid.id = 'grid'
   grid.className = 'grid gap-6 max-w-7xl mx-auto px-4 my-6'
-  grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(230px, 1fr))'
+  grid.style.gridTemplateColumns = `repeat(auto-fill, minmax(${minWidth}px, 1fr))`
   return grid
 }
 

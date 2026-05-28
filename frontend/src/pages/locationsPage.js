@@ -1,27 +1,27 @@
-import { getCharacters } from '../services/rickmorty.js'
+import { getLocations } from '../services/rickmorty.js'
 import { createPagination, renderPaginationButtons } from '../components/pagination.js'
-import { createGrid, renderGrid } from '../components/grid.js'
-import { createItemCard } from '../components/card.js'
+import { createList, renderList } from '../components/list.js'
+import { createLocationRow } from '../components/location-row.js'
 
-const admin = true // cambiar a true para modo admin (pendiente conectar con login/localStorage)
+const admin = true
 
-export async function renderCharactersPage(container, page = 1) {
+export async function renderLocationsPage(container, page = 1) {
   container.innerHTML = `
-    ${createGrid().outerHTML}
+    ${createList().outerHTML}
     ${createPagination().outerHTML}
   `
 
-  const grid = document.getElementById('grid')
+  const list = document.getElementById('list')
   const pagination = document.getElementById('pagination')
 
   let currentPage = 1
   let totalPages = 1
   let isLoading = false
 
-  function renderCard(item) {
-    return createItemCard(item, {
+  function renderRow(item) {
+    return createLocationRow(item, {
       isAdmin: admin,
-      onNavigate: (item) => window.__router.navigate(`/character/${item.id}`)
+      onNavigate: (item) => window.__router.navigate(`/location/${item.id}`)
     })
   }
 
@@ -39,16 +39,15 @@ export async function renderCharactersPage(container, page = 1) {
     if (isLoading) return
     isLoading = true
     updatePagination()
-    renderGrid(grid, { loading: true })
 
     try {
-      const data = await getCharacters(page)
+      const data = await getLocations(page)
       currentPage = page
       totalPages = data.info.pages
-      renderGrid(grid, { items: data.results, renderItem: renderCard })
-      history.replaceState({}, '', `/characters/page/${page}`)
+      renderList(list, { items: data.results, renderItem: renderRow })
+      history.replaceState({}, '', `/locations/page/${page}`)
     } catch (err) {
-      renderGrid(grid, { error: err.message })
+      renderList(list, { error: err.message })
       console.error(err)
     } finally {
       isLoading = false
