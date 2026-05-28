@@ -1,14 +1,10 @@
-export function createLocationRow(location, { isAdmin, onNavigate } = {}) {
+export function createRow(item, { isAdmin, onNavigate }, renderContent) {
   const row = document.createElement('div')
   row.className =
     'group flex items-center gap-4 rounded-lg border px-4 py-3 cursor-pointer transition-colors hover:bg-[var(--rm-bg-secondary)] border-[var(--rm-border)] bg-[var(--rm-bg-card)]'
 
   row.innerHTML = `
-    <div class="flex-1 min-w-0">
-      <p class="font-bold text-(--rm-text-primary) truncate group-hover:text-(--rm-accent-plasma) transition-colors">
-        ${location.name}
-      </p>
-    </div>
+    ${renderContent(item)}
     ${isAdmin ? `
       <div class="flex gap-2 shrink-0">
         <button class="btn-edit px-3 py-1.5 rounded-lg text-sm font-bold cursor-pointer hover:opacity-80 transition-opacity
@@ -20,21 +16,15 @@ export function createLocationRow(location, { isAdmin, onNavigate } = {}) {
   `
 
   row.addEventListener('click', (e) => {
-    const target = e.target
-
-    if (target.classList.contains('btn-edit')) {
-      console.log('Editar', location.id, location.name)
+    if (e.target.classList.contains('btn-edit')) {
+      console.log('Editar', item.id, item.name)
       return
     }
-
-    if (target.classList.contains('btn-delete')) {
-      console.log('Eliminar', location.id, location.name)
+    if (e.target.classList.contains('btn-delete')) {
+      console.log('Eliminar', item.id, item.name)
       return
     }
-
-    if (onNavigate) {
-      onNavigate(location)
-    }
+    if (onNavigate) onNavigate(item)
   })
 
   return row
