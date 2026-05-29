@@ -1,33 +1,48 @@
 import { getCharacters } from '../services/rickmorty.js'
+import { createGrid, renderGrid } from '../components/grid.js'
 import { createCard } from '../components/card.js'
 import { createPagination, renderPaginationButtons } from '../components/pagination.js'
+import { createHeader } from '../components/header.js'
+import { createFooter } from '../components/footer.js'
 import { show } from '../router.js'
 import { authStore } from '../store/authStore.js'
 
 export async function renderCharactersPage(container, page = 1) {
-  container.innerHTML = '<div class="flex items-center justify-center min-h-screen"><span class="text-(--rm-text-muted) text-lg">Loading...</span></div>'
+  container.innerHTML = ''
+  container.appendChild(createHeader())
+
+  const content = document.createElement('div')
+  content.id = 'page-content'
+  content.style.flex = '1'
+  container.appendChild(content)
+
+  content.innerHTML = '<div class="flex items-center justify-center min-h-screen"><span class="text-(--rm-text-muted) text-lg">Loading...</span></div>'
 
   let data
   try {
     data = await getCharacters(page)
   } catch (err) {
-    container.innerHTML = `<div class="flex items-center justify-center min-h-screen"><span class="text-(--rm-danger) text-xl">${err.message}</span></div>`
+    content.innerHTML = ''
+    const grid = createGrid()
+    content.appendChild(grid)
+    renderGrid(grid, { error: err.message })
+    container.appendChild(createFooter())
     return
   }
 
-  container.innerHTML = ''
+  content.innerHTML = ''
 
-  const grid = document.createElement('div')
-  grid.className = 'grid gap-6 max-w-7xl mx-auto px-4 my-6'
-  grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(230px, 1fr))'
-  container.appendChild(grid)
+  const grid = createGrid()
+  content.appendChild(grid)
 
-  for (const item of data.results) {
-    grid.appendChild(createCard(item, {
-      isAdmin: authStore.isLoged,
-      onNavigate: () => show('character', item.id),
-    }))
-  }
+  renderGrid(grid, {
+    items: data.results,
+    renderItem: (item) =>
+      createCard(item, {
+        isAdmin: authStore.isLoged,
+        onNavigate: () => show('character', item.id),
+      }),
+  })
 
   const pagination = createPagination()
   renderPaginationButtons(pagination, {
@@ -37,5 +52,7 @@ export async function renderCharactersPage(container, page = 1) {
     onPrev: () => show('characters-page', page - 1),
     onNext: () => show('characters-page', page + 1),
   })
-  container.appendChild(pagination)
+  content.appendChild(pagination)
+
+  container.appendChild(createFooter())
 }
