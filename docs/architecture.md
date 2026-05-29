@@ -11,14 +11,18 @@ episodes-page/
 │   │   │   ├── coming-soon.js
 │   │   │   ├── grid.js
 │   │   │   ├── list.js
+│   │   │   ├── modal.js
 │   │   │   ├── pagination.js
-│   │   │   └── row.js
+│   │   │   ├── row.js
+│   │   │   └── toast.js
 │   │   ├── pages/
 │   │   │   ├── charactersPage.js
 │   │   │   ├── episodesPage.js
 │   │   │   └── locationsPage.js
 │   │   ├── services/
 │   │   │   └── rickmorty.js
+│   │   ├── utils/
+│   │   │   └── page.js
 │   │   ├── main.js
 │   │   ├── router.js
 │   │   └── style.css
@@ -40,8 +44,8 @@ episodes-page/
 Router en `src/router.js` — SPA con History API.
 
 - Evento `popstate`
-- Método `navigate(path)` para navegación programática
-- Regex reemplaza `:id|:page` por `(\d+)`
+- Método `navigate(path)` para navegación programática (pushState + popstate)
+- Matching por segmentos con split/join, soporta `:id` y `:page` como params
 - Fallback a `/characters` si pathname es `/`
 - Ruta no encontrada muestra mensaje de error
 
@@ -56,15 +60,15 @@ Router en `src/router.js` — SPA con History API.
 
 ## Roles
 
-Constante `admin` en cada page (hardcodeada). Cuando es `true` se agregan botones Editar/Eliminar en cada fila o card. Login/localStorage será implementado a futuro.
+Constante `isAdmin` en cada página (hardcodeada). Cuando es `true` se agregan botones Editar en cards/rows que abren un modal de edición. Login/localStorage será implementado a futuro.
 
-## Patrón de página
+## Patrón de página (`utils/page.js`)
 
-Todas las páginas siguen la misma estructura:
+Todas las páginas se crean con `definePage(config)` que retorna una función `page(container, page)`:
 
-1. Limpiar `container.innerHTML` con componentes placeholder (grid/list + paginación)
-2. Obtener referencias del DOM recién creado
-3. Definir `renderRow` / `renderCard` para cada item
+1. Limpiar `container.innerHTML = ''`
+2. Crear wrapper con layout (grid/list según `createLayout`) + paginación
+3. Obtener referencias del DOM recién creado
 4. Definir `loadPage(page)` async con manejo de loading/error
 5. Llamar `loadPage(pageInicial)`
 

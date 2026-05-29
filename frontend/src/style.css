@@ -1,10 +1,24 @@
 @import "tailwindcss";
+@import '@savaryna/tailwindcss-material-symbols';
+
+@theme {
+  --ms-optical-size-xs: 20;
+  --ms-optical-size-sm: 24;
+  --ms-optical-size-md: 40;
+  --ms-optical-size-lg: 48;
+  --ms-optical-size-xl: 64;
+  --ms-optical-size-2xl: 72;
+  --ms-optical-size-3xl: 96;
+  --ms-optical-size-4xl: 128;
+}
 
 :root {
+
   /* ── Fondos ── */
   --rm-bg-primary:      #0A1128;
   --rm-bg-secondary:    #0D1F3C;
   --rm-bg-card:         #111D3A;
+
   /* ── Acentos ── */
   --rm-accent-portal:   #39FF8A;
   --rm-accent-plasma:   #00C2FF;

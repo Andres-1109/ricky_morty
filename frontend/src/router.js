@@ -1,34 +1,56 @@
-export default class Router {
-  constructor(container) {
-    this.container = container
+class Router {
+  constructor(containerSelector) {
+    this.container = document.querySelector(containerSelector)
     this.routes = []
-    window.addEventListener('popstate', () => this.resolve())
+    window.addEventListener('popstate', () => this.#resolve())
   }
 
-  addRoute(pattern, handler) {
+  get(pattern, handler) {
     this.routes.push({ pattern, handler })
   }
 
-  navigate(path) {
-    history.pushState({}, '', path)
-    this.resolve()
+  start() {
+    this.#resolve()
   }
 
-  resolve() {
-    const path = (window.location.pathname || '/').replace(/\/$/, '') || '/characters'
+  #resolve() {
+    let path = window.location.pathname || '/'
+    if (path.endsWith('/')) path = path.slice(0, -1)
+    if (!path) path = '/characters'
+
+    const segments = path.split('/').filter(Boolean)
+
     for (const { pattern, handler } of this.routes) {
-      const regex = new RegExp('^' + pattern.replace(/:id|:page/g, '(\\d+)') + '$')
-      const match = path.match(regex)
+      const parts = pattern.split('/').filter(Boolean)
+      if (segments.length !== parts.length) continue
+
+      const params = []
+      let match = true
+
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i]
+        if (part.startsWith(':')) {
+          params.push(segments[i])
+        } else if (part !== segments[i]) {
+          match = false
+          break
+        }
+      }
+
       if (match) {
-        handler(this.container, ...match.slice(1))
+        handler(this.container, ...params)
         return
       }
     }
+
     this.container.innerHTML =
       '<p class="text-center p-8 text-(--rm-text-muted)">Page not found</p>'
   }
-
-  init() {
-    this.resolve()
-  }
 }
+
+export function navigate(path) {
+  history.pushState({}, '', path)
+  window.dispatchEvent(new PopStateEvent('popstate'))
+}
+
+export default Router
