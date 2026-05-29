@@ -4,7 +4,7 @@ import { show } from "../router.js"
 
 export async function loginPage(container) {
     container.innerHTML = `
-<div class="min-h-screen flex items-center justify-center bg-[#0A1128]">
+<div class="flex-1 flex items-center justify-center bg-[#0A1128]">
   <div class="bg-[#111D3A] p-8 rounded-xl shadow border border-[#1B3A5C] w-96 flex flex-col gap-4">
     <h2 class="text-2xl font-bold text-[#C0F0D8]">Iniciar sesión</h2>
 
