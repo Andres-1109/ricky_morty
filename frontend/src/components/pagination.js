@@ -9,21 +9,21 @@ export function renderPaginationButtons(pagination, { page, totalPages, isLoadin
   pagination.innerHTML = ''
 
   const previousButton = document.createElement('button')
-  previousButton.textContent = '← Prev'
   previousButton.disabled = page <= 1 || isLoading
   previousButton.className =
-    'px-4 py-2 rounded-lg text-sm font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-[var(--rm-bg-secondary)] text-[var(--rm-accent-plasma)] border border-[var(--rm-border)]'
+    'inline-flex items-center gap-0 px-4 py-2 rounded-lg text-sm leading-none font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-(--rm-bg-secondary) text-(--rm-accent-plasma) border border-(--rm-border)'
+  previousButton.innerHTML = '<span class="icon icon-sm -ml-2">chevron_left</span> Prev'
   previousButton.addEventListener('click', onPrev)
 
   const pageInfo = document.createElement('span')
-  pageInfo.className = 'text-sm text-[var(--rm-text-muted)]'
+  pageInfo.className = 'text-sm text-(--rm-text-muted)'
   pageInfo.textContent = `Page ${page} of ${totalPages}`
 
   const nextButton = document.createElement('button')
-  nextButton.textContent = 'Next →'
   nextButton.disabled = page >= totalPages || isLoading
   nextButton.className =
-    'px-4 py-2 rounded-lg text-sm font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-[var(--rm-bg-secondary)] text-[var(--rm-accent-plasma)] border border-[var(--rm-border)]'
+    'inline-flex items-center gap-0 px-4 py-2 rounded-lg text-sm leading-none font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-(--rm-bg-secondary) text-(--rm-accent-plasma) border border-(--rm-border)'
+  nextButton.innerHTML = 'Next <span class="icon icon-sm -mr-2">chevron_right</span>'
   nextButton.addEventListener('click', onNext)
 
   pagination.append(previousButton, pageInfo, nextButton)

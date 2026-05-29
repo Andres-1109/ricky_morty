@@ -1,7 +1,7 @@
-export function createItemCard(item, { isAdmin, onNavigate } = {}) {
+export function createCard(item, { isAdmin, onNavigate, onEdit } = {}) {
   const card = document.createElement('article')
   card.className =
-    'group rounded-xl overflow-hidden border cursor-pointer transition-transform duration-200 hover:scale-[1.02] bg-[var(--rm-bg-card)] border-[var(--rm-border)]'
+    'group rounded-xl overflow-hidden border cursor-pointer transition-transform duration-200 hover:scale-[1.02] bg-(--rm-bg-card) border-(--rm-border)'
 
   card.innerHTML = `
     <img
@@ -28,11 +28,24 @@ export function createItemCard(item, { isAdmin, onNavigate } = {}) {
     </div>
   `
 
+  const img = card.querySelector('img')
+  img.addEventListener('error', () => {
+    const placeholder = document.createElement('div')
+    placeholder.className =
+      'w-full h-56 flex flex-col items-center justify-center bg-(--rm-bg-card) gap-4'
+    placeholder.innerHTML = `
+      <span class="icon icon-4xl icon-300 text-(--rm-text-muted)">broken_image</span>
+
+      <span class="text-base text-(--rm-text-muted)">Imagen no disponible</span>
+    `
+    img.parentNode.replaceChild(placeholder, img)
+  })
+
   card.addEventListener('click', (e) => {
     const target = e.target
 
     if (target.classList.contains('btn-edit')) {
-      console.log('Editar', item.id, item.name)
+      if (onEdit) onEdit(item)
       return
     }
 

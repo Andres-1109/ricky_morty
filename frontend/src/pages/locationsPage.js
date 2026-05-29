@@ -1,60 +1,18 @@
 import { getLocations } from '../services/rickmorty.js'
-import { createPagination, renderPaginationButtons } from '../components/pagination.js'
 import { createList, renderList } from '../components/list.js'
 import { createRow } from '../components/row.js'
+import { definePage } from '../utils/page.js'
+import { navigate } from '../router.js'
 
-const admin = true
-
-export async function renderLocationsPage(container, page = 1) {
-  container.innerHTML = `
-    ${createList().outerHTML}
-    ${createPagination().outerHTML}
-  `
-
-  const list = document.getElementById('list')
-  const pagination = document.getElementById('pagination')
-
-  let currentPage = 1
-  let totalPages = 1
-  let isLoading = false
-
-  function renderRow(item) {
-    return createRow(item, { isAdmin: admin, onNavigate: (item) => window.__router.navigate(`/location/${item.id}`) }, (loc) =>
+export const renderLocationsPage = definePage({
+  fetchData: getLocations,
+  createLayout: createList,
+  renderLayout: renderList,
+  basePath: '/locations',
+  renderItem: () => (item) =>
+    createRow(item, { isAdmin: true, onNavigate: (entry) => navigate(`/location/${entry.id}`) }, (loc) =>
       `<div class="flex-1 min-w-0">
          <p class="font-bold text-(--rm-text-primary) truncate group-hover:text-(--rm-accent-plasma) transition-colors">${loc.name}</p>
        </div>`
-    )
-  }
-
-  function updatePagination() {
-    renderPaginationButtons(pagination, {
-      page: currentPage,
-      totalPages,
-      isLoading,
-      onPrev: () => loadPage(currentPage),
-      onNext: () => loadPage(currentPage + 1),
-    })
-  }
-
-  async function loadPage(page) {
-    if (isLoading) return
-    isLoading = true
-    updatePagination()
-
-    try {
-      const data = await getLocations(page)
-      currentPage = page
-      totalPages = data.info.pages
-      renderList(list, { items: data.results, renderItem: renderRow })
-      history.replaceState({}, '', `/locations/page/${page}`)
-    } catch (err) {
-      renderList(list, { error: err.message })
-      console.error(err)
-    } finally {
-      isLoading = false
-      updatePagination()
-    }
-  }
-
-  await loadPage(Number(page))
-}
+    ),
+})
