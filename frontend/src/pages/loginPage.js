@@ -1,7 +1,9 @@
 import { loginUser } from "../services/authService"
 import { authStore } from "../store/authStore"
+import { show } from "../router.js"
 
- export function loginPage() {document.getElementById("app").innerHTML=`
+export async function loginPage(container) {
+    container.innerHTML = `
 <div class="min-h-screen flex items-center justify-center bg-[#0A1128]">
   <div class="bg-[#111D3A] p-8 rounded-xl shadow border border-[#1B3A5C] w-96 flex flex-col gap-4">
     <h2 class="text-2xl font-bold text-[#C0F0D8]">Iniciar sesión</h2>
@@ -27,27 +29,24 @@ import { authStore } from "../store/authStore"
 </div>
 `
 
-const buttonLogin = document.getElementById("btn-login")
-buttonLogin.addEventListener("click", (e)=>{
-    e.preventDefault()
-    const email = document.getElementById("input-email").value.trim()
-    const password = document.getElementById("input-password").value.trim()
+    const buttonLogin = container.querySelector("#btn-login")
+    const errorMsg = container.querySelector("#error-msg")
 
-    const user = loginUser(email,password)
+    buttonLogin.addEventListener("click", async (e) => {
+        e.preventDefault()
+        errorMsg.classList.add("hidden")
 
-    if(!user){
-        document.getElementById("error-sg").classList.remove("hidden")
-        return;
-    }
-    
-    authStore.onLogin(user)
+        const email = container.querySelector("#input-email").value.trim()
+        const password = container.querySelector("#input-password").value.trim()
 
-    if (user.role === "admin"){
-        adminPage()
-    } else {
-        visitorPage()
-    }
-})
+        const user = await loginUser(email, password)
+
+        if (!user) {
+            errorMsg.classList.remove("hidden")
+            return
+        }
+
+        authStore.onLogin(user)
+        show("characters")
+    })
 }
-
-

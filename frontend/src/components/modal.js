@@ -42,7 +42,6 @@ export function createModal() {
               <option value="Dead">Dead</option>
               <option value="unknown">unknown</option>
             </select>
-            <span id="status-icon" class="absolute right-3 top-1/2 -translate-y-1/2 text-(--rm-text-muted) pointer-events-none icon icon-sm">arrow_drop_down</span>
           </div>
         </div>
         <div class="flex gap-3 pt-2">

@@ -12,7 +12,7 @@ export function renderPaginationButtons(pagination, { page, totalPages, isLoadin
   previousButton.disabled = page <= 1 || isLoading
   previousButton.className =
     'inline-flex items-center gap-0 px-4 py-2 rounded-lg text-sm leading-none font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-(--rm-bg-secondary) text-(--rm-accent-plasma) border border-(--rm-border)'
-  previousButton.innerHTML = '<span class="icon icon-sm -ml-2">chevron_left</span> Prev'
+  previousButton.innerHTML = 'Prev'
   previousButton.addEventListener('click', onPrev)
 
   const pageInfo = document.createElement('span')
@@ -23,7 +23,7 @@ export function renderPaginationButtons(pagination, { page, totalPages, isLoadin
   nextButton.disabled = page >= totalPages || isLoading
   nextButton.className =
     'inline-flex items-center gap-0 px-4 py-2 rounded-lg text-sm leading-none font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-(--rm-bg-secondary) text-(--rm-accent-plasma) border border-(--rm-border)'
-  nextButton.innerHTML = 'Next <span class="icon icon-sm -mr-2">chevron_right</span>'
+  nextButton.innerHTML = 'Next'
   nextButton.addEventListener('click', onNext)
 
   pagination.append(previousButton, pageInfo, nextButton)

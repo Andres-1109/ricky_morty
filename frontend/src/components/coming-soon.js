@@ -1,3 +1,5 @@
+import { show } from '../router.js'
+
 export function renderComingSoon(container, { label, id, backLabel }) {
   container.innerHTML = `
     <div class="flex flex-col items-center justify-center min-h-screen bg-(--rm-bg-primary)">
@@ -16,6 +18,6 @@ export function renderComingSoon(container, { label, id, backLabel }) {
   const link = container.querySelector('#back-link')
   link.addEventListener('click', (e) => {
     e.preventDefault()
-    window.history.back()
+    show(backLabel)
   })
 }

@@ -34,8 +34,6 @@ export function createCard(item, { isAdmin, onNavigate, onEdit } = {}) {
     placeholder.className =
       'w-full h-56 flex flex-col items-center justify-center bg-(--rm-bg-card) gap-4'
     placeholder.innerHTML = `
-      <span class="icon icon-4xl icon-300 text-(--rm-text-muted)">broken_image</span>
-
       <span class="text-base text-(--rm-text-muted)">Imagen no disponible</span>
     `
     img.parentNode.replaceChild(placeholder, img)

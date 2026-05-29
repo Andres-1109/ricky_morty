@@ -1,16 +1,4 @@
 @import "tailwindcss";
-@import '@savaryna/tailwindcss-material-symbols';
-
-@theme {
-  --ms-optical-size-xs: 20;
-  --ms-optical-size-sm: 24;
-  --ms-optical-size-md: 40;
-  --ms-optical-size-lg: 48;
-  --ms-optical-size-xl: 64;
-  --ms-optical-size-2xl: 72;
-  --ms-optical-size-3xl: 96;
-  --ms-optical-size-4xl: 128;
-}
 
 :root {
 
@@ -39,4 +27,6 @@
   --rm-danger:          #E84E4E;
   --rm-success:         #39FF8A;
   --rm-info:            #00C2FF;
+
+
 }
