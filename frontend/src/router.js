@@ -30,5 +30,7 @@ export function show(name, ...args) {
   else if (name === 'location') renderComingSoon(content, { label: 'Location', id: args[0], backLabel: 'locations' })
   else if (name === 'episode') renderComingSoon(content, { label: 'Episode', id: args[0], backLabel: 'episodes' })
 
-  app.appendChild(createFooter())
+  if (name !== 'login') {
+    app.appendChild(createFooter())
+  }
 }
