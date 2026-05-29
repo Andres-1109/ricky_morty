@@ -3,12 +3,17 @@ import { renderCharactersPage } from './pages/charactersPage.js'
 import { renderLocationsPage } from './pages/locationsPage.js'
 import { renderEpisodesPage } from './pages/episodesPage.js'
 import { renderComingSoon } from './components/coming-soon.js'
+import { createHeader } from './components/header.js'
 import { createFooter } from './components/footer.js'
 
 const app = document.querySelector('#app')
 
 export function show(name, ...args) {
   app.innerHTML = ''
+
+  if (name !== 'login') {
+    app.appendChild(createHeader())
+  }
 
   const content = document.createElement('div')
   content.id = 'page-content'
