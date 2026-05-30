@@ -1,7 +1,7 @@
 import { show } from '../router.js'
 import { authStore } from '../store/authStore.js'
 
-export function createHeader() {
+export function header() {
   const header = document.createElement('header')
   header.className = 'bg-(--rm-bg-secondary) border-b border-(--rm-accent-portal) shadow-lg'
   header.innerHTML = `

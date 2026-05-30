@@ -1,11 +1,11 @@
 import { show } from '../router.js'
-import { createHeader } from '../components/header.js'
-import { createFooter } from '../components/footer.js'
+import { header } from '../components/header.js'
+import { footer } from '../components/footer.js'
 
 export function renderComingSoon(container, { label, id, backLabel }) {
   container.innerHTML = ''
 
-  container.appendChild(createHeader())
+  container.appendChild(header())
 
   const content = document.createElement('div')
   content.id = 'page-content'
@@ -25,7 +25,7 @@ export function renderComingSoon(container, { label, id, backLabel }) {
   `
   container.appendChild(content)
 
-  container.appendChild(createFooter())
+  container.appendChild(footer())
 
   const link = content.querySelector('#back-link')
   link.addEventListener('click', (e) => {

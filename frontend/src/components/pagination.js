@@ -1,30 +1,25 @@
-export function createPagination() {
-  const pagination = document.createElement('div')
-  pagination.className = 'flex justify-center items-center gap-4 mb-6'
-  pagination.id = 'pagination'
-  return pagination
-}
+export function pagination({ page, totalPages, onPrev, onNext }) {
+  const container = document.createElement('div')
+  container.className = 'flex justify-center items-center gap-4 mb-6'
 
-export function renderPaginationButtons(pagination, { page, totalPages, isLoading, onPrev, onNext }) {
-  pagination.innerHTML = ''
-
-  const previousButton = document.createElement('button')
-  previousButton.disabled = page <= 1 || isLoading
-  previousButton.className =
+  const previous = document.createElement('button')
+  previous.disabled = page <= 1
+  previous.className =
     'inline-flex items-center gap-0 px-4 py-2 rounded-lg text-sm leading-none font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-(--rm-bg-secondary) text-(--rm-accent-plasma) border border-(--rm-border)'
-  previousButton.innerHTML = 'Prev'
-  previousButton.addEventListener('click', onPrev)
+  previous.textContent = 'Prev'
+  previous.addEventListener('click', onPrev)
 
-  const pageInfo = document.createElement('span')
-  pageInfo.className = 'text-sm text-(--rm-text-muted)'
-  pageInfo.textContent = `Page ${page} of ${totalPages}`
+  const info = document.createElement('span')
+  info.className = 'text-sm text-(--rm-text-muted)'
+  info.textContent = `Page ${page} of ${totalPages}`
 
-  const nextButton = document.createElement('button')
-  nextButton.disabled = page >= totalPages || isLoading
-  nextButton.className =
+  const next = document.createElement('button')
+  next.disabled = page >= totalPages
+  next.className =
     'inline-flex items-center gap-0 px-4 py-2 rounded-lg text-sm leading-none font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-(--rm-bg-secondary) text-(--rm-accent-plasma) border border-(--rm-border)'
-  nextButton.innerHTML = 'Next'
-  nextButton.addEventListener('click', onNext)
+  next.textContent = 'Next'
+  next.addEventListener('click', onNext)
 
-  pagination.append(previousButton, pageInfo, nextButton)
+  container.append(previous, info, next)
+  return container
 }
