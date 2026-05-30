@@ -32,7 +32,7 @@ export async function loginPage(container) {
     const buttonLogin = container.querySelector("#btn-login")
     const errorMsg = container.querySelector("#error-msg")
 
-    buttonLogin.addEventListener("click", async (e) => {
+    async function handleLoginClick(e) {
         e.preventDefault()
         errorMsg.classList.add("hidden")
 
@@ -48,5 +48,7 @@ export async function loginPage(container) {
 
         authStore.onLogin(user)
         show("characters")
-    })
+    }
+
+    buttonLogin.addEventListener("click", handleLoginClick)
 }

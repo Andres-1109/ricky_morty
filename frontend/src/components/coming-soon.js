@@ -2,6 +2,12 @@ import { show } from '../router.js'
 import { header } from '../components/header.js'
 import { footer } from '../components/footer.js'
 
+function handleBackClick(e) {
+  e.preventDefault()
+  const link = e.currentTarget
+  show(link.dataset.back)
+}
+
 export function renderComingSoon(container, { label, id, backLabel }) {
   container.innerHTML = ''
 
@@ -18,6 +24,7 @@ export function renderComingSoon(container, { label, id, backLabel }) {
       <button
         class="mt-4 underline cursor-pointer text-(--rm-accent-plasma) bg-transparent border-none"
         id="back-link"
+        data-back="${backLabel}"
       >
         Back to ${backLabel}
       </button>
@@ -28,8 +35,5 @@ export function renderComingSoon(container, { label, id, backLabel }) {
   container.appendChild(footer())
 
   const link = content.querySelector('#back-link')
-  link.addEventListener('click', (e) => {
-    e.preventDefault()
-    show(backLabel)
-  })
+  link.addEventListener('click', handleBackClick)
 }
