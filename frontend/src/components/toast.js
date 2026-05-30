@@ -1,3 +1,17 @@
+/* function slideIn() {
+  this.classList.remove('translate-x-[calc(100%+1rem)]')
+  this.classList.add('translate-x-0')
+}
+
+function slideOut() {
+  this.classList.remove('translate-x-0')
+  this.classList.add('translate-x-[calc(100%+1rem)]')
+}
+
+function removeElement() {
+  this.remove()
+}
+
 export function showToast(message) {
   const existing = document.getElementById('toast')
   if (existing) existing.remove()
@@ -9,14 +23,11 @@ export function showToast(message) {
   toast.textContent = message
   document.body.appendChild(toast)
 
-  requestAnimationFrame(() => {
-    toast.classList.remove('translate-x-[calc(100%+1rem)]')
-    toast.classList.add('translate-x-0')
-  })
+  requestAnimationFrame(slideIn.bind(toast))
 
-  setTimeout(() => {
-    toast.classList.remove('translate-x-0')
-    toast.classList.add('translate-x-[calc(100%+1rem)]')
-    setTimeout(() => toast.remove(), 300)
-  }, 3000)
+  setTimeout(slideOut.bind(toast), 3000)
+  setTimeout(removeElement.bind(toast), 3300)
 }
+ */
+
+// future implementation

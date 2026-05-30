@@ -1,11 +1,12 @@
 import { getEpisodes } from '../services/rickmorty.js'
-import { list } from '../components/list.js'
-import { row } from '../components/row.js'
 import { pagination } from '../components/pagination.js'
 import { header } from '../components/header.js'
 import { footer } from '../components/footer.js'
 import { show } from '../router.js'
-import { authStore } from '../store/authStore.js'
+
+function handleRowClick(e) {
+  show(e.currentTarget.dataset.route, e.currentTarget.dataset.id)
+}
 
 export async function renderEpisodesPage(container, page = 1) {
   container.innerHTML = ''
@@ -21,28 +22,36 @@ export async function renderEpisodesPage(container, page = 1) {
   try {
     const data = await getEpisodes(page)
     content.innerHTML = ''
-    content.appendChild(list({
-      items: data.results,
-      renderItem: (item) =>
-        row(item,
-          { isAdmin: authStore.isLoged, onNavigate: () => show('episode', item.id) },
-          (ep) => `
-            <span class="text-xs font-mono font-bold text-(--rm-accent-purple) shrink-0 w-16">${ep.episode}</span>
-            <div class="flex-1 min-w-0">
-              <p class="font-bold text-(--rm-text-primary) truncate group-hover:text-(--rm-accent-plasma) transition-colors">${ep.name}</p>
-            </div>
-          `
-        ),
-    }))
+
+    const list = document.createElement('div')
+    list.id = 'list'
+    list.className = 'mx-auto px-4 my-6 space-y-3'
+
+    for (const episode of data.results) {
+      const row = document.createElement('div')
+      row.className = 'group flex items-center gap-4 rounded-lg border px-4 py-3 cursor-pointer transition-colors hover:bg-(--rm-bg-secondary) border-(--rm-border) bg-(--rm-bg-card)'
+      row.innerHTML = `
+        <span class="text-xs font-mono font-bold text-(--rm-accent-purple) shrink-0 w-16">${episode.episode}</span>
+        <div class="flex-1 min-w-0">
+          <p class="font-bold text-(--rm-text-primary) truncate group-hover:text-(--rm-accent-plasma) transition-colors">${episode.name}</p>
+        </div>
+      `
+
+      row.dataset.route = 'episode'
+      row.dataset.id = episode.id
+      row.addEventListener('click', handleRowClick)
+
+      list.appendChild(row)
+    }
+
+    content.appendChild(list)
     content.appendChild(pagination({
       page,
       totalPages: data.info.pages,
-      onPrev: () => show('episodes-page', page - 1),
-      onNext: () => show('episodes-page', page + 1),
+      navigateTo: 'episodes-page',
     }))
   } catch (error) {
-    content.innerHTML = ''
-    content.appendChild(list({ error: error.message }))
+    content.innerHTML = `<p class="text-center py-16 text-(--rm-danger)">Error: ${error.message}</p>`
   }
 
   container.appendChild(footer())

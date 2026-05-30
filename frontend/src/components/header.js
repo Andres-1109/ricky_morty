@@ -1,6 +1,23 @@
 import { show } from '../router.js'
 import { authStore } from '../store/authStore.js'
 
+function handleLogoClick() {
+  show('characters')
+}
+
+function handleNavClick(e) {
+  e.preventDefault()
+  show(e.currentTarget.dataset.nav)
+}
+
+function handleLogoutClick() {
+  authStore.onLogout()
+}
+
+function attachNavClick(link) {
+  link.addEventListener('click', handleNavClick)
+}
+
 export function header() {
   const header = document.createElement('header')
   header.className = 'bg-(--rm-bg-secondary) border-b border-(--rm-accent-portal) shadow-lg'
@@ -39,18 +56,9 @@ export function header() {
     </div>
   `
 
-  header.querySelector('#header-logo').addEventListener('click', () => show('characters'))
-
-  header.querySelectorAll('[data-nav]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault()
-      show(link.dataset.nav)
-    })
-  })
-
-  header.querySelector('#btn-logout').addEventListener('click', () => {
-    authStore.onLogout()
-  })
+  header.querySelector('#header-logo').addEventListener('click', handleLogoClick)
+  header.querySelectorAll('[data-nav]').forEach(attachNavClick)
+  header.querySelector('#btn-logout').addEventListener('click', handleLogoutClick)
 
   return header
 }

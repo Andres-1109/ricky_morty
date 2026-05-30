@@ -1,6 +1,17 @@
 let onSaveCallback = null
 let currentCharacterId = null
 
+function handleModalClick(e) {
+  if (e.target === e.currentTarget || e.target.id === 'modal-backdrop') {
+    closeModal()
+  }
+}
+
+function handleFormSubmit(e) {
+  e.preventDefault()
+  handleSubmit()
+}
+
 export function createModal() {
   const modal = document.createElement('div')
   modal.id = 'edit-modal'
@@ -64,22 +75,12 @@ export function createModal() {
     </div>
   `
 
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal || e.target.id === 'modal-backdrop') {
-      closeModal()
-    }
-  })
-
+  modal.addEventListener('click', handleModalClick)
   document.addEventListener('keydown', handleEscape)
 
   const form = modal.querySelector('#edit-form')
-  form.addEventListener('submit', (e) => {
-    e.preventDefault()
-    handleSubmit()
-  })
-
+  form.addEventListener('submit', handleFormSubmit)
   modal.querySelector('#modal-cancel').addEventListener('click', closeModal)
-
   modal.querySelector('#edit-name').addEventListener('input', clearFieldError)
   modal.querySelector('#edit-species').addEventListener('input', clearFieldError)
 
