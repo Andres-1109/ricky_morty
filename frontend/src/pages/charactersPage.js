@@ -1,15 +1,15 @@
 import { getCharacters } from '../services/rickmorty.js'
-import { createGrid, renderGrid } from '../components/grid.js'
-import { createCard } from '../components/card.js'
-import { createPagination, renderPaginationButtons } from '../components/pagination.js'
-import { createHeader } from '../components/header.js'
-import { createFooter } from '../components/footer.js'
+import { grid } from '../components/grid.js'
+import { card } from '../components/card.js'
+import { pagination } from '../components/pagination.js'
+import { header } from '../components/header.js'
+import { footer } from '../components/footer.js'
 import { show } from '../router.js'
 import { authStore } from '../store/authStore.js'
 
 export async function renderCharactersPage(container, page = 1) {
   container.innerHTML = ''
-  container.appendChild(createHeader())
+  container.appendChild(header())
 
   const content = document.createElement('div')
   content.id = 'page-content'
@@ -18,41 +18,27 @@ export async function renderCharactersPage(container, page = 1) {
 
   content.innerHTML = '<div class="flex items-center justify-center min-h-screen"><span class="text-(--rm-text-muted) text-lg">Loading...</span></div>'
 
-  let data
   try {
-    data = await getCharacters(page)
-  } catch (err) {
+    const data = await getCharacters(page)
     content.innerHTML = ''
-    const grid = createGrid()
-    content.appendChild(grid)
-    renderGrid(grid, { error: err.message })
-    container.appendChild(createFooter())
-    return
+    content.appendChild(grid({
+      items: data.results,
+      renderItem: (character) =>
+        card(character, {
+          isAdmin: authStore.isLoged && authStore.user.role === 'admin',
+          onNavigate: () => show('character', character.id),
+        }),
+    }))
+    content.appendChild(pagination({
+      page,
+      totalPages: data.info.pages,
+      onPrev: () => show('characters-page', page - 1),
+      onNext: () => show('characters-page', page + 1),
+    }))
+  } catch (error) {
+    content.innerHTML = ''
+    content.appendChild(grid({ error: error.message }))
   }
 
-  content.innerHTML = ''
-
-  const grid = createGrid()
-  content.appendChild(grid)
-
-  renderGrid(grid, {
-    items: data.results,
-    renderItem: (item) =>
-      createCard(item, {
-        isAdmin: authStore.isLoged,
-        onNavigate: () => show('character', item.id),
-      }),
-  })
-
-  const pagination = createPagination()
-  renderPaginationButtons(pagination, {
-    page,
-    totalPages: data.info.pages,
-    isLoading: false,
-    onPrev: () => show('characters-page', page - 1),
-    onNext: () => show('characters-page', page + 1),
-  })
-  content.appendChild(pagination)
-
-  container.appendChild(createFooter())
+  container.appendChild(footer())
 }

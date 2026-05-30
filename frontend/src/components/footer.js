@@ -1,4 +1,4 @@
-export function createFooter() {
+export function footer() {
     const footer = document.createElement('footer')
     footer.className = "w-full bg-(--rm-bg-secondary) border-t border-(--rm-border) mt-auto text-xs text-(--rm-text-muted)"
     footer.innerHTML = `
