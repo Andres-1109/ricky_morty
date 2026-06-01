@@ -1,6 +1,15 @@
 let onSaveCallback = null
 let currentCharacterId = null
 
+function getOrCreateEditModal() {
+  let modal = document.getElementById('edit-modal')
+  if (!modal) {
+    modal = createModal()
+    document.body.appendChild(modal)
+  }
+  return modal
+}
+
 function handleModalClick(e) {
   if (e.target === e.currentTarget || e.target.id === 'modal-backdrop') {
     closeModal()
@@ -137,6 +146,8 @@ export function openModal({ id, name, species, status, onSave }) {
   currentCharacterId = id
   onSaveCallback = onSave
 
+  const modal = getOrCreateEditModal()
+
   document.getElementById('edit-name').value = name
   document.getElementById('edit-species').value = species
   document.getElementById('edit-status').value = status
@@ -146,7 +157,6 @@ export function openModal({ id, name, species, status, onSave }) {
   document.getElementById('edit-name')?.classList.remove('border-(--rm-danger)')
   document.getElementById('edit-species')?.classList.remove('border-(--rm-danger)')
 
-  const modal = document.getElementById('edit-modal')
   modal.classList.remove('hidden')
 }
 
@@ -155,4 +165,47 @@ export function closeModal() {
   if (modal) modal.classList.add('hidden')
   currentCharacterId = null
   onSaveCallback = null
+}
+
+export function showConfirm({ title, message, onConfirm }) {
+  const existing = document.getElementById('confirm-modal')
+  if (existing) existing.remove()
+
+  const modal = document.createElement('div')
+  modal.id = 'confirm-modal'
+  modal.className = 'fixed inset-0 z-50 flex items-center justify-center'
+
+  modal.innerHTML = `
+    <div id="confirm-backdrop" class="absolute inset-0 bg-black/60"></div>
+    <div class="relative bg-(--rm-bg-card) border border-(--rm-border) rounded-xl p-6 w-full max-w-sm mx-4 shadow-2xl">
+      <h2 class="text-lg font-bold text-(--rm-text-primary) mb-2">${title}</h2>
+      <p class="text-(--rm-text-secondary) mb-6">${message}</p>
+      <div class="flex gap-3">
+        <button id="confirm-cancel" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer hover:opacity-80 transition-opacity bg-(--rm-bg-secondary) text-(--rm-text-primary) border border-(--rm-border) hover:bg-(--rm-border) hover:text-white">
+          Cancelar
+        </button>
+        <button id="confirm-ok" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer hover:opacity-80 transition-opacity bg-(--rm-danger) text-white hover:brightness-110">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  `
+
+  document.body.appendChild(modal)
+
+  function close() {
+    modal.remove()
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target.id === 'confirm-backdrop') {
+      close()
+    }
+  })
+
+  document.getElementById('confirm-cancel').addEventListener('click', close)
+  document.getElementById('confirm-ok').addEventListener('click', () => {
+    onConfirm()
+    close()
+  })
 }

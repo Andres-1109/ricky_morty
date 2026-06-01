@@ -2,12 +2,14 @@
 
 html, body {
   height: 100%;
+  background: var(--rm-bg-primary);
 }
 
 #app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--rm-bg-primary);
 }
 
 #page-content {

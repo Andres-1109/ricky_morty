@@ -1,6 +1,11 @@
 import './style.css'
-import { show } from './router.js'
+import { show, navigateFromHash } from './router.js'
 import { authStore } from './store/authStore.js'
 
 authStore.loadData()
-show(authStore.isLoged ? 'characters' : 'login')
+
+if (window.location.hash) {
+  navigateFromHash()
+} else {
+  show(authStore.isLoged ? 'characters' : 'login')
+}

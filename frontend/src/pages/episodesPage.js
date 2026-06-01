@@ -25,11 +25,11 @@ export async function renderEpisodesPage(container, page = 1) {
 
     const list = document.createElement('div')
     list.id = 'list'
-    list.className = 'mx-auto px-4 my-6 space-y-3'
+    list.className = 'min-w-full mx-auto  px-4 my-6 space-y-3'
 
     for (const episode of data.results) {
       const row = document.createElement('div')
-      row.className = 'group flex items-center gap-4 rounded-lg border px-4 py-3 cursor-pointer transition-colors hover:bg-(--rm-bg-secondary) border-(--rm-border) bg-(--rm-bg-card)'
+      row.className = 'group flex items-center gap-4 rounded-lg border px-5 py-5 cursor-pointer transition-colors hover:bg-(--rm-bg-secondary) border-(--rm-border) bg-(--rm-bg-card)'
       row.innerHTML = `
         <span class="text-xs font-mono font-bold text-(--rm-accent-purple) shrink-0 w-16">${episode.episode}</span>
         <div class="flex-1 min-w-0">
