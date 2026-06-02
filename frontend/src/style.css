@@ -20,27 +20,27 @@ html, body {
 
 :root {
 
-  /* ── Fondos ── */
+  /* ── Backgrounds ── */
   --rm-bg-primary:      #0A1128;
   --rm-bg-secondary:    #0D1F3C;
   --rm-bg-card:         #111D3A;
 
-  /* ── Acentos ── */
+  /* ── Accents ── */
   --rm-accent-portal:   #39FF8A;
   --rm-accent-plasma:   #00C2FF;
   --rm-accent-purple:   #7B4FE8;
-  /* ── Texto ── */
+  /* ── Text ── */
   --rm-text-primary:    #C0F0D8;
   --rm-text-secondary:  #8AB4CC;
   --rm-text-muted:      #4A6A80;
-  /* ── Bordes ── */
+  /* ── Borders ── */
   --rm-border:          #1B3A5C;
   --rm-border-accent:   rgba(57, 255, 138, 0.25);
-  /* ── Estados (Rick & Morty API) ── */
+  /* ── Statuses (Rick & Morty API) ── */
   --rm-alive:           #39FF8A;
   --rm-dead:            #E84E4E;
   --rm-unknown:         #7B4FE8;
-  /* ── Semánticos ── */
+  /* ── Semantic ── */
   --rm-warning:         #F5C842;
   --rm-danger:          #E84E4E;
   --rm-success:         #39FF8A;

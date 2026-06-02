@@ -1,9 +1,9 @@
 export const authStore = {
-    isLoged: false,
+    isLogged: false,
     user: null,
 
     onLogin(user) {
-        this.isLoged = true
+        this.isLogged = true
         this.user = user
         localStorage.setItem("user", JSON.stringify(user))
     },
@@ -11,14 +11,14 @@ export const authStore = {
     loadData(){
         const data = JSON.parse(localStorage.getItem("user"))
         if(data !== null){
-            this.isLoged = true
+            this.isLogged = true
             this.user = data
         }
     },
 
     async onLogout(){
         localStorage.removeItem("user")
-        this.isLoged = false
+        this.isLogged = false
         this.user = null
         const { show } = await import('../router.js')
         show('login')

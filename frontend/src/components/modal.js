@@ -29,30 +29,30 @@ export function createModal() {
   modal.innerHTML = `
     <div id="modal-backdrop" class="absolute inset-0 bg-black/60"></div>
     <div class="relative bg-(--rm-bg-card) border border-(--rm-border) rounded-xl p-6 w-full max-w-md mx-4 shadow-2xl">
-      <h2 id="modal-title" class="text-lg font-bold text-(--rm-text-primary) mb-4">Editar Personaje</h2>
+      <h2 id="modal-title" class="text-lg font-bold text-(--rm-text-primary) mb-4">Edit Character</h2>
       <form id="edit-form" class="space-y-4">
         <div>
-          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="edit-name">Nombre</label>
+          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="edit-name">Name</label>
           <input
             id="edit-name"
             type="text"
             required
             class="w-full px-3 py-2.5 rounded-lg bg-(--rm-bg-primary) border border-(--rm-border) text-(--rm-text-primary) outline-none transition-colors focus:border-(--rm-accent-plasma)"
           />
-          <p id="edit-name-error" class="text-xs text-(--rm-danger) mt-1 hidden">Campo obligatorio</p>
+          <p id="edit-name-error" class="text-xs text-(--rm-danger) mt-1 hidden">Required</p>
         </div>
         <div>
-          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="edit-species">Especie</label>
+          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="edit-species">Species</label>
           <input
             id="edit-species"
             type="text"
             required
             class="w-full px-3 py-2.5 rounded-lg bg-(--rm-bg-primary) border border-(--rm-border) text-(--rm-text-primary) outline-none transition-colors focus:border-(--rm-accent-plasma)"
           />
-          <p id="edit-species-error" class="text-xs text-(--rm-danger) mt-1 hidden">Campo obligatorio</p>
+          <p id="edit-species-error" class="text-xs text-(--rm-danger) mt-1 hidden">Required</p>
         </div>
         <div>
-          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="edit-status">Estado</label>
+          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="edit-status">Status</label>
           <div class="relative">
             <select
               id="edit-status"
@@ -70,14 +70,14 @@ export function createModal() {
             type="button"
             class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer hover:opacity-80 transition-opacity bg-(--rm-bg-secondary) text-(--rm-text-primary) border border-(--rm-border) hover:bg-(--rm-border) hover:text-white"
           >
-            Cancelar
+            Cancel
           </button>
           <button
             id="modal-save"
             type="submit"
             class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer hover:opacity-80 transition-opacity bg-(--rm-accent-plasma) text-(--rm-bg-primary) hover:brightness-110"
           >
-            Guardar
+            Save
           </button>
         </div>
       </form>
@@ -182,10 +182,10 @@ export function showConfirm({ title, message, onConfirm }) {
       <p class="text-(--rm-text-secondary) mb-6">${message}</p>
       <div class="flex gap-3">
         <button id="confirm-cancel" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer hover:opacity-80 transition-opacity bg-(--rm-bg-secondary) text-(--rm-text-primary) border border-(--rm-border) hover:bg-(--rm-border) hover:text-white">
-          Cancelar
+          Cancel
         </button>
         <button id="confirm-ok" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer hover:opacity-80 transition-opacity bg-(--rm-danger) text-white hover:brightness-110">
-          Eliminar
+          Delete
         </button>
       </div>
     </div>
@@ -206,6 +206,124 @@ export function showConfirm({ title, message, onConfirm }) {
   document.getElementById('confirm-cancel').addEventListener('click', close)
   document.getElementById('confirm-ok').addEventListener('click', () => {
     onConfirm()
+    close()
+  })
+}
+
+export function openCreateModal({ onSave }) {
+  const existing = document.getElementById('create-modal')
+  if (existing) existing.remove()
+
+  const modal = document.createElement('div')
+  modal.id = 'create-modal'
+  modal.className = 'fixed inset-0 z-50 flex items-center justify-center'
+
+  modal.innerHTML = `
+    <div id="create-backdrop" class="absolute inset-0 bg-black/60"></div>
+    <div class="relative bg-(--rm-bg-card) border border-(--rm-border) rounded-xl p-6 w-full max-w-md mx-4 shadow-2xl">
+      <h2 class="text-lg font-bold text-(--rm-text-primary) mb-4">Create Character</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="create-name">Name</label>
+          <input id="create-name" type="text" required
+            class="w-full px-3 py-2.5 rounded-lg bg-(--rm-bg-primary) border border-(--rm-border) text-(--rm-text-primary) outline-none transition-colors focus:border-(--rm-accent-plasma)"
+          />
+          <p id="create-name-error" class="text-xs text-(--rm-danger) mt-1 hidden">Required</p>
+        </div>
+        <div>
+          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="create-species">Species</label>
+          <input id="create-species" type="text" required
+            class="w-full px-3 py-2.5 rounded-lg bg-(--rm-bg-primary) border border-(--rm-border) text-(--rm-text-primary) outline-none transition-colors focus:border-(--rm-accent-plasma)"
+          />
+          <p id="create-species-error" class="text-xs text-(--rm-danger) mt-1 hidden">Required</p>
+        </div>
+        <div>
+          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="create-status">Status</label>
+          <select id="create-status"
+            class="w-full px-3 py-2.5 pr-10 rounded-lg bg-(--rm-bg-primary) border border-(--rm-border) text-(--rm-text-primary) outline-none transition-colors focus:border-(--rm-accent-plasma) appearance-none cursor-pointer"
+          >
+            <option value="Alive">Alive</option>
+            <option value="Dead">Dead</option>
+            <option value="unknown">unknown</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="create-gender">Gender</label>
+          <select id="create-gender"
+            class="w-full px-3 py-2.5 pr-10 rounded-lg bg-(--rm-bg-primary) border border-(--rm-border) text-(--rm-text-primary) outline-none transition-colors focus:border-(--rm-accent-plasma) appearance-none cursor-pointer"
+          >
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Genderless">Genderless</option>
+            <option value="unknown">unknown</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm text-(--rm-text-secondary) mb-1.5" for="create-image">Image URL</label>
+          <input id="create-image" type="url" placeholder="https://example.com/avatar.png"
+            class="w-full px-3 py-2.5 rounded-lg bg-(--rm-bg-primary) border border-(--rm-border) text-(--rm-text-primary) placeholder-(--rm-text-muted) outline-none transition-colors focus:border-(--rm-accent-plasma)"
+          />
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button id="create-cancel" type="button"
+            class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer hover:opacity-80 transition-opacity bg-(--rm-bg-secondary) text-(--rm-text-primary) border border-(--rm-border) hover:bg-(--rm-border) hover:text-white"
+          >
+            Cancel
+          </button>
+          <button id="create-save" type="submit"
+            class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer hover:opacity-80 transition-opacity bg-(--rm-accent-plasma) text-(--rm-bg-primary) hover:brightness-110"
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  `
+
+  document.body.appendChild(modal)
+
+  function close() {
+    modal.remove()
+  }
+
+  function clearErrors() {
+    document.getElementById('create-name-error').classList.add('hidden')
+    document.getElementById('create-species-error').classList.add('hidden')
+    document.getElementById('create-name').classList.remove('border-(--rm-danger)')
+    document.getElementById('create-species').classList.remove('border-(--rm-danger)')
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target.id === 'create-backdrop') {
+      close()
+    }
+  })
+
+  document.getElementById('create-cancel').addEventListener('click', close)
+  document.getElementById('create-name').addEventListener('input', clearErrors)
+  document.getElementById('create-species').addEventListener('input', clearErrors)
+
+  document.getElementById('create-save').addEventListener('click', () => {
+    const name = document.getElementById('create-name').value.trim()
+    const species = document.getElementById('create-species').value.trim()
+    const status = document.getElementById('create-status').value
+    const gender = document.getElementById('create-gender').value
+    const image = document.getElementById('create-image').value.trim()
+
+    let valid = true
+    if (!name) {
+      document.getElementById('create-name').classList.add('border-(--rm-danger)')
+      document.getElementById('create-name-error').classList.remove('hidden')
+      valid = false
+    }
+    if (!species) {
+      document.getElementById('create-species').classList.add('border-(--rm-danger)')
+      document.getElementById('create-species-error').classList.remove('hidden')
+      valid = false
+    }
+    if (!valid) return
+
+    onSave({ name, species, status, gender, image })
     close()
   })
 }

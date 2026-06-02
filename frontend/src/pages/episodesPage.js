@@ -1,4 +1,4 @@
-import { getEpisodes } from '../services/rickmorty.js'
+import { getEpisodes } from '../services/api.js'
 import { pagination } from '../components/pagination.js'
 import { header } from '../components/header.js'
 import { footer } from '../components/footer.js'

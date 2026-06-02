@@ -7,5 +7,5 @@ authStore.loadData()
 if (window.location.hash) {
   navigateFromHash()
 } else {
-  show(authStore.isLoged ? 'characters' : 'login')
+  show(authStore.isLogged ? 'characters' : 'login')
 }

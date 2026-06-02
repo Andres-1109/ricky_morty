@@ -1,4 +1,4 @@
-import { getEpisodeById, getCharactersByIds } from '../services/rickmorty.js'
+import { getEpisodeById, getCharactersByIds } from '../services/api.js'
 import { header } from '../components/header.js'
 import { footer } from '../components/footer.js'
 import { show } from '../router.js'

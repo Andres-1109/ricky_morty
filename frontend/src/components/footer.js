@@ -8,7 +8,7 @@ export function footer() {
             <div class="w-8 h-8 rounded-full border-2 border-(--rm-accent-plasma) bg-[radial-gradient(circle_at_40%_40%,var(--rm-accent-portal),var(--rm-accent-plasma),var(--rm-bg-secondary))] flex-shrink-0"></div>
             <div>
               <p class="text-sm font-medium text-(--rm-text-primary) leading-tight">Rick & Morty Explorer</p>
-              <p class="text-xs text-(--rm-text-muted) leading-tight">Multiverso C-137</p>
+              <p class="text-xs text-(--rm-text-muted) leading-tight">C-137 Multiverse</p>
             </div>
           </div>
           <nav class="flex items-center gap-5">
@@ -19,7 +19,7 @@ export function footer() {
         <hr class="border-(--rm-border)" />
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-(--rm-text-secondary)">
           <p class="text-center md:text-left">
-            Datos desde la <a href="https://rickandmortyapi.com" target="_blank" rel="noopener noreferrer" class="text-(--rm-accent-plasma) hover:text-(--rm-accent-portal) transition-colors"> API pública de Rick & Morty </a>
+            Data from the <a href="https://rickandmortyapi.com" target="_blank" rel="noopener noreferrer" class="text-(--rm-accent-plasma) hover:text-(--rm-accent-portal) transition-colors"> public Rick & Morty API </a>
           </p>
           <div class="flex flex-wrap items-center justify-center gap-4 font-mono text-[11px] text-(--rm-text-muted)">
             <div class="flex gap-3 border-r border-(--rm-border) pr-4">

@@ -1,4 +1,4 @@
-import { getLocations } from '../services/rickmorty.js'
+import { getLocations } from '../services/api.js'
 import { pagination } from '../components/pagination.js'
 import { header } from '../components/header.js'
 import { footer } from '../components/footer.js'
