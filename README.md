@@ -2,13 +2,22 @@
 
 SPA que consume la [Rick & Morty API](https://rickandmortyapi.com) con paginación, roles de administrador, edición local persistida y hash routing.
 
-## Stack
+## Tecnologías
 
 - **Vite** 8.x
 - **Tailwind CSS** 4.x
 - **Vanilla JS** (ES modules)
 
-## Scripts
+## Cómo ejecutar
+
+### Backend (json-server)
+
+```bash
+npx json-server backend/db.json --watch --port 3001
+# http://localhost:3001/users
+```
+
+### Frontend
 
 ```bash
 cd frontend
@@ -18,13 +27,13 @@ pnpm build      # producción → dist/
 pnpm preview    # previsualizar build
 ```
 
-## Docs
+## Documentación
 
 - [Arquitectura](./docs/architecture.md)
 - [Frontend](./docs/frontend.md)
 - [API](./docs/api.md)
 
-## Contributors
+## Contribuidores
 
 - Andres Giraldo
 - Daniel Jaraba
