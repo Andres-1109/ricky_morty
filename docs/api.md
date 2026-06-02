@@ -4,15 +4,13 @@
 
 Todas las requests a `/api/*` son proxyeadas por Vite a `https://rickandmortyapi.com/api/*`.
 
-### `GET /api/character?page={page}`
-
-Lista personajes paginados.
+### `GET /api/character`
 
 | Parámetro | Tipo | Default |
 |-----------|------|---------|
 | page | number | 1 |
 
-Respuesta:
+Lista paginada de personajes. Respuesta:
 
 ```json
 {
@@ -23,21 +21,34 @@ Respuesta:
       "name": "Rick Sanchez",
       "status": "Alive",
       "species": "Human",
-      "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+      "type": "",
+      "gender": "Male",
+      "origin": { "name": "Earth (C-137)", "url": "https://..." },
+      "location": { "name": "Citadel of Ricks", "url": "https://..." },
+      "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+      "episode": ["https://..."],
+      "url": "https://...",
+      "created": "2017-11-04T18:48:46.250Z"
     }
   ]
 }
 ```
 
-### `GET /api/location?page={page}`
+### `GET /api/character/:id`
 
-Lista ubicaciones paginadas.
+Un solo personaje por ID. Misma estructura que un item de `results`.
+
+### `GET /api/character/[id,id,...]`
+
+Batch fetch de múltiples personajes por IDs separados por coma. Retorna array de objetos.
+
+### `GET /api/location`
 
 | Parámetro | Tipo | Default |
 |-----------|------|---------|
 | page | number | 1 |
 
-Respuesta:
+Lista paginada de ubicaciones. Respuesta:
 
 ```json
 {
@@ -47,21 +58,26 @@ Respuesta:
       "id": 1,
       "name": "Earth (C-137)",
       "type": "Planet",
-      "dimension": "Dimension C-137"
+      "dimension": "Dimension C-137",
+      "residents": ["https://..."],
+      "url": "https://...",
+      "created": "2017-11-10T12:42:04.162Z"
     }
   ]
 }
 ```
 
-### `GET /api/episode?page={page}`
+### `GET /api/location/:id`
 
-Lista episodios paginados.
+Una sola ubicación por ID.
+
+### `GET /api/episode`
 
 | Parámetro | Tipo | Default |
 |-----------|------|---------|
 | page | number | 1 |
 
-Respuesta:
+Lista paginada de episodios. Respuesta:
 
 ```json
 {
@@ -71,12 +87,19 @@ Respuesta:
       "id": 1,
       "name": "Pilot",
       "air_date": "December 2, 2013",
-      "episode": "S01E01"
+      "episode": "S01E01",
+      "characters": ["https://..."],
+      "url": "https://...",
+      "created": "2017-11-10T12:56:33.798Z"
     }
   ]
 }
 ```
 
-## Backend local (json-server)
+### `GET /api/episode/:id`
 
-`backend/db.json` — archivo vacío, preparado para futura integración con json-server (CRUD de personajes, usuarios, etc.).
+Un solo episodio por ID.
+
+### `GET /api/episode/[id,id,...]`
+
+Batch fetch de múltiples episodios por IDs separados por coma.

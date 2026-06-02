@@ -2,27 +2,28 @@
 
 ```
 episodes-page/
-├── backend/
-│   └── db.json
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── card.js
 │   │   │   ├── coming-soon.js
-│   │   │   ├── grid.js
-│   │   │   ├── list.js
+│   │   │   ├── footer.js
+│   │   │   ├── header.js
 │   │   │   ├── modal.js
 │   │   │   ├── pagination.js
-│   │   │   ├── row.js
 │   │   │   └── toast.js
 │   │   ├── pages/
+│   │   │   ├── characterDetailPage.js
 │   │   │   ├── charactersPage.js
+│   │   │   ├── episodeDetailPage.js
 │   │   │   ├── episodesPage.js
-│   │   │   └── locationsPage.js
+│   │   │   ├── locationDetailPage.js
+│   │   │   ├── locationsPage.js
+│   │   │   └── loginPage.js
 │   │   ├── services/
-│   │   │   └── rickmorty.js
-│   │   ├── utils/
-│   │   │   └── page.js
+│   │   │   └── api.js
+│   │   ├── store/
+│   │   │   ├── authStore.js
+│   │   │   └── localStore.js
 │   │   ├── main.js
 │   │   ├── router.js
 │   │   └── style.css
@@ -34,42 +35,57 @@ episodes-page/
 
 ## Flujo de navegación
 
-1. `history.pushState` / `popstate` → Router
-2. Router resuelve pathname contra rutas registradas
+1. `location.hash` cambia → evento `hashchange` → Router
+2. Router resuelve hash contra rutas registradas (ej. `#characters`, `#character/1`)
 3. Handler pinta `container.innerHTML`
 4. Cada página se auto-gestiona (grid/list, paginación, fetch)
 
 ## Routing
 
-Router en `src/router.js` — SPA con History API.
+Router en `src/router.js` — SPA con hash routing.
 
-- Evento `popstate`
-- Método `navigate(path)` para navegación programática (pushState + popstate)
+- Evento `hashchange` + lectura inicial en `main.js`
+- Método `show(route, ...params)` para navegación programática (actualiza `location.hash`)
 - Matching por segmentos con split/join, soporta `:id` y `:page` como params
-- Fallback a `/characters` si pathname es `/`
+- Fallback a `#characters` si hash está vacío
 - Ruta no encontrada muestra mensaje de error
 
 ### Rutas registradas
 
 | Ruta | Página |
 |------|--------|
-| `/characters`, `/characters/page/:page` | Characters (grid de cards) |
-| `/locations`, `/locations/page/:page` | Locations (lista de rows) |
-| `/episodes`, `/episodes/page/:page` | Episodes (lista de rows) |
-| `/character/:id`, `/location/:id`, `/episode/:id` | Coming soon (placeholder) |
+| `#characters`, `#characters-page/:page` | Characters (grid de cards) |
+| `#locations-page`, `#locations-page/:page` | Locations (lista de rows) |
+| `#episodes-page`, `#episodes-page/:page` | Episodes (lista de rows) |
+| `#character/:id` | Character detail |
+| `#location/:id` | Location detail |
+| `#episode/:id` | Episode detail |
+| `#login` | Login |
 
 ## Roles
 
-Constante `isAdmin` en cada página (hardcodeada). Cuando es `true` se agregan botones Editar en cards/rows que abren un modal de edición. Login/localStorage será implementado a futuro.
+Manejados vía `authStore` con propiedad `isLogged` y `user.role`. Cuando `role === 'admin'` se muestran botones de Edit, Delete y Create en la página de personajes. El store persiste en localStorage.
 
-## Patrón de página (`utils/page.js`)
+## Estado local
 
-Todas las páginas se crean con `definePage(config)` que retorna una función `page(container, page)`:
+`localStore` (singleton en `store/localStore.js`) maneja cuatro colecciones persistidas en localStorage:
+
+| Colección | Clave localStorage | Propósito |
+|-----------|-------------------|-----------|
+| `deleted` | `deleted-characters` | IDs de personajes eliminados (API) |
+| `edited` | `edited-characters` | Cambios a personajes existentes (API) |
+| `created` | `created-characters` | Personajes creados localmente |
+| `nextLocalId` | `next-local-id` | Contador negativo para IDs locales |
+
+Los IDs locales usan números negativos para evitar colisiones con la API.
+
+## Patrón de página
+
+Cada página exporta una función async `renderX(container, ...params)`:
 
 1. Limpiar `container.innerHTML = ''`
-2. Crear wrapper con layout (grid/list según `createLayout`) + paginación
-3. Obtener referencias del DOM recién creado
-4. Definir `loadPage(page)` async con manejo de loading/error
-5. Llamar `loadPage(pageInicial)`
+2. Crear header, content wrapper y footer
+3. En try/catch: fetch data, actualizar estado global, llamar `render()` con manejo de loading/error
+4. Adjuntar event listener delegado en `#page-content`
 
-Cada `loadPage` sincroniza la URL con `history.replaceState` al cambiar de página.
+No se usan clases ni frameworks — el estado se maneja con closures y variables locales.

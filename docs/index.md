@@ -1,13 +1,12 @@
 # Rick & Morty App
 
-SPA que lista personajes, ubicaciones y episodios de la API pública de Rick & Morty con paginación, roles (admin/visitante) y navegación History API.
+SPA que lista personajes, ubicaciones y episodios de la API pública de Rick & Morty con paginación, roles (admin/visitante), edición local persistida y hash routing.
 
 | Stack | Versión |
 |-------|---------|
 | Vite | 8.x |
 | Tailwind CSS | 4.x |
 | Vanilla JS | ES modules |
-| Backend | json-server (db.json) |
 
 ## Enlaces
 
